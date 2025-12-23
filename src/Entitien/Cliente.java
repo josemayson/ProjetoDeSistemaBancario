@@ -2,7 +2,6 @@ package Entitien;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public abstract class Cliente {
 
     private String nome;
