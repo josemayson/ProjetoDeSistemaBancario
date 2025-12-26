@@ -1,4 +1,4 @@
-package Entitien;
+package Entities;
 
 public class ContaPoupanca extends Conta {
 

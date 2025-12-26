@@ -1,4 +1,4 @@
-package Entitien;
+package Entities;
 
 public class ContaCorrente extends Conta implements Tributavel{
 
