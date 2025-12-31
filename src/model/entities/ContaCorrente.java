@@ -1,6 +1,6 @@
-package Entities;
+package model.entities;
 
-public class ContaCorrente extends Conta implements Tributavel{
+public class ContaCorrente extends Conta implements Tributavel {
 
     private double limiteChequeEspecial;
     private static double imposto = 1.0;

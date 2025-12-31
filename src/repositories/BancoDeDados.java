@@ -1,7 +1,6 @@
-package Repositories;
+package repositories;
 
-import Entities.Cliente;
-import Entities.Conta;
+import model.entities.*;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
