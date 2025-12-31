@@ -18,4 +18,4 @@ O sistema simula um banco digital onde é possível gerenciar clientes e suas co
 * Git & GitHub
 
 ---
-**Aluno:** [SEU NOME AQUI]
+**Aluno:** Jose Mayson Lima Marques
