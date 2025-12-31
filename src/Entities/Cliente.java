@@ -42,4 +42,8 @@ public abstract class Cliente {
         return endereco;
     }
 
+    public String toString() {
+        return "Nome: " + nome + ", Endereco: " + endereco;
+    }
+
 }

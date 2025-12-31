@@ -61,5 +61,16 @@ public abstract class Conta{
         return saldo;
     }
 
+    public String toString() {
+        return "Numero: " +
+                numero +
+                ", Agencia: " +
+                agencia +
+                ", Saldo: " +
+                saldo +
+                ", Titular: " +
+                titular;
+    }
+
 }
 
