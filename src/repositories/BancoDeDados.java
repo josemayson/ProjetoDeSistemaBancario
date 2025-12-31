@@ -1,7 +1,6 @@
 package repositories;
 
 import model.entities.*;
-
 import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;

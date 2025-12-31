@@ -27,4 +27,8 @@ public class PessoaJuridica extends Cliente {
         return razaoSocial;
     }
 
+    @Override
+    public String toString() {
+        return "PF, " + super.toString() + ", CNPJ: " + cnpj + ", Data de fundacao: " + dataFundacao + ", Razao social: " + razaoSocial;
+    }
 }

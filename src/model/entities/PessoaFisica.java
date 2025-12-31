@@ -21,4 +21,8 @@ public class PessoaFisica extends Cliente {
         return dataNascimento;
     }
 
+    @Override
+    public String toString() {
+        return "PF, " + super.toString() + "CPF: " + cpf + ", Data de nascimento: " + dataNascimento;
+    }
 }
