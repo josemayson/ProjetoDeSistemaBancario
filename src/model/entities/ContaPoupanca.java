@@ -8,11 +8,21 @@ public class ContaPoupanca extends Conta {
         super(numero, agencia, titular);
     }
 
-    public double aplicarRendimento(){
+    public double aplicarRendimento() {
         double rendimento = saldo * (taxaRendimento / 100);
         saldo += rendimento;
         historico.add(new Transacao("Rendimento da Poupanca", rendimento));
         return rendimento;
+    }
+
+    public String paraArquivo() {
+        String documento = "";
+        if (titular instanceof PessoaFisica) {
+            documento = ((PessoaFisica) titular).getCpf();
+        } else if (titular instanceof PessoaJuridica) {
+            documento = ((PessoaJuridica) titular).getCnpj();
+        }
+        return "CP;" + numero + ";" + agencia + ";" + saldo + ";" + documento;
     }
 
     public Double getTaxaRendimento() {

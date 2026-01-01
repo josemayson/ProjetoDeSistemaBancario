@@ -12,32 +12,30 @@ public class Banco {
     private List<Cliente> clientesDoBanco = new ArrayList<>();
     private List<Conta> contas = new ArrayList<>();
 
-    public Banco(String nomeDoBanco, String codigo){
+    public Banco(String nomeDoBanco, String codigo) {
         this.nomeDoBanco = nomeDoBanco;
         this.codigo = codigo;
     }
 
-    public boolean adicionarCliente(Cliente cliente){
-        if(cliente != null) {
+    public boolean adicionarCliente(Cliente cliente) {
+        if (cliente != null) {
             clientesDoBanco.add(cliente);
             return true;
         }
         return false;
     }
 
-    public boolean abrirConta(Cliente cliente, String tipo){
-        if(cliente == null) {
+    public boolean abrirConta(Cliente cliente, String tipo) {
+        if (cliente == null) {
             return false;
         }
         Conta novaConta = null;
-        if(tipo.equalsIgnoreCase("corrente")) {
+        if (tipo.equalsIgnoreCase("corrente")) {
             double chequeEspecial = 1000;
             novaConta = new ContaCorrente(this.ordem, this.agenciaPadrao, cliente, chequeEspecial);
-        }
-        else if(tipo.equalsIgnoreCase("poupanca")) {
+        } else if (tipo.equalsIgnoreCase("poupanca")) {
             novaConta = new ContaPoupanca(this.ordem, this.agenciaPadrao, cliente);
-        }
-        else {
+        } else {
             return false;
         }
         cliente.adicionarConta(novaConta);

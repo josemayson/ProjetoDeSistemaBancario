@@ -3,7 +3,7 @@ package model.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Conta{
+public abstract class Conta {
 
     protected Integer numero;
     protected Integer agencia;
@@ -19,7 +19,7 @@ public abstract class Conta{
     }
 
     public boolean depositar(double valorDeposito) {
-        if(valorDeposito <= 0) {
+        if (valorDeposito <= 0) {
             return false;
         }
         saldo += valorDeposito;
@@ -28,7 +28,7 @@ public abstract class Conta{
     }
 
     public boolean sacar(double valorSaque) {
-        if(saldo < valorSaque) {
+        if (saldo < valorSaque) {
             return false;
         }
         this.saldo -= valorSaque;
@@ -37,7 +37,7 @@ public abstract class Conta{
     }
 
     public boolean transferir(Conta conta, double valorTransferencia) {
-        if(this.saldo < valorTransferencia) {
+        if (this.saldo < valorTransferencia) {
             return false;
         }
         this.saldo -= valorTransferencia;
@@ -50,7 +50,7 @@ public abstract class Conta{
         StringBuilder registro = new StringBuilder();
 
         registro.append("---------- EXTRATO BANCÁRIO ----------\n");
-        for(Transacao c: historico) {
+        for (Transacao c : historico) {
             registro.append(c.registrar()).append("\n");
         }
         registro.append("--------------------------------------\n");
@@ -60,6 +60,8 @@ public abstract class Conta{
     public double verSaldo() {
         return saldo;
     }
+
+    public abstract String paraArquivo();
 
     public String toString() {
         return "Numero: " +

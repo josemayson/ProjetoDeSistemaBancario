@@ -2,6 +2,7 @@ package model.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public abstract class Cliente {
 
     private String nome;
@@ -14,7 +15,7 @@ public abstract class Cliente {
     }
 
     public boolean atualizarDados(String nome, String endereco) {
-        if(nome != null && endereco != null) {
+        if (nome != null && endereco != null) {
             this.nome = nome;
             this.endereco = endereco;
             return true;
@@ -23,7 +24,7 @@ public abstract class Cliente {
     }
 
     public boolean adicionarConta(Conta conta) {
-        if(conta != null) {
+        if (conta != null) {
             contas.add(conta);
             return true;
         }
@@ -41,6 +42,8 @@ public abstract class Cliente {
     public String getEndereco() {
         return endereco;
     }
+
+    public abstract String paraArquivo();
 
     public String toString() {
         return "Nome: " + nome + ", Endereco: " + endereco;

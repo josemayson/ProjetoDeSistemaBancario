@@ -10,7 +10,8 @@ public class Transacao {
     private Double valTransacao;
 
     private static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    public Transacao(String tipoTransacao, double valTransacao){
+
+    public Transacao(String tipoTransacao, double valTransacao) {
         this.tipo_de_transacao = tipoTransacao;
         this.valTransacao = valTransacao;
         this.data = LocalDateTime.now();

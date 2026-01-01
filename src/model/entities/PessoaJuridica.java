@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class PessoaJuridica extends Cliente {
 
@@ -28,7 +29,13 @@ public class PessoaJuridica extends Cliente {
     }
 
     @Override
+    public String paraArquivo() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return "PJ;" + getNome() + ";" + getCnpj() + ";" + getDataFundacao().format(fmt) + ";" + getRazaoSocial();
+    }
+
+    @Override
     public String toString() {
-        return "PF, " + super.toString() + ", CNPJ: " + cnpj + ", Data de fundacao: " + dataFundacao + ", Razao social: " + razaoSocial;
+        return "PF, " + super.toString() + ", CNPJ: " + cnpj + ", Data de fundacao: " + dataFundacao + ", Razao social: " + razaoSocial + ".";
     }
 }
