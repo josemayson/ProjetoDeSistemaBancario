@@ -31,7 +31,7 @@ public class PessoaJuridica extends Cliente {
     @Override
     public String paraArquivo() {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return "PJ;" + getNome() + ";" + getCnpj() + ";" + getDataFundacao().format(fmt) + ";" + getRazaoSocial();
+        return "PJ;" + getNome() + ";" + getEndereco() + ";" + getCnpj() + ";" + getDataFundacao().format(fmt) + ";" + getRazaoSocial();
     }
 
     @Override

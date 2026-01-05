@@ -7,8 +7,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+
 public class BancoDeDados {
-    private static String ARQClientes = "Cliente.txt";
+    private static String ARQClientes = "Clientes.txt";
     private static String ARQContas = "Contas.txt";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -39,11 +40,13 @@ public class BancoDeDados {
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
+                if (linha.trim().isEmpty()) continue;
                 String[] dado = linha.split(";");
+                if (dado.length < 4) continue;
                 Cliente cliente = null;
                 String tipo = dado[0];
                 if (tipo.equalsIgnoreCase("pf")) {
-                    cliente = new PessoaFisica(dado[1], dado[2], dado[3], LocalDate.parse(dado[4], formatter));
+                    cliente = new PessoaFisica(dado[1].trim(), dado[2].trim(), dado[3].trim(), LocalDate.parse(dado[4].trim(), formatter));
                 } else if (tipo.equalsIgnoreCase("pj")) {
                     cliente = new PessoaJuridica(dado[1], dado[2], dado[3], LocalDate.parse(dado[4], formatter), dado[5]);
                 }
@@ -68,12 +71,14 @@ public class BancoDeDados {
             String linha;
 
             while ((linha = br.readLine()) != null) {
+                if (linha.trim().isEmpty()) continue;
                 String dado[] = linha.split(";");
+                if (dado.length < 4) continue;
                 String tipo = dado[0];
-                Integer numero = Integer.parseInt(dado[1]);
-                Integer agencia = Integer.parseInt(dado[2]);
-                double saldoArquivo = Double.parseDouble(dado[3]);
-                String documentoTitular = dado[4];
+                Integer numero = Integer.parseInt(dado[1].trim());
+                Integer agencia = Integer.parseInt(dado[2].trim());
+                double saldoArquivo = Double.parseDouble(dado[3].trim());
+                String documentoTitular = dado[4].trim();
                 Cliente clienteTitular = stringParaCliente(documentoTitular, clienteCadastrado);
                 Conta conta = null;
                 if (tipo.equalsIgnoreCase("CP")) {
@@ -109,4 +114,16 @@ public class BancoDeDados {
         }
         return null;
     }
+
+    // Em BancoDeDados.java
+    public void atualizarArquivoContas(ArrayList<Conta> listaDeContas) throws IOException {
+        // FileWriter sem o "true" sobrescreve o arquivo
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQContas))) {
+            for (Conta conta : listaDeContas) {
+                bw.write(conta.paraArquivo());
+                bw.newLine();
+            }
+        }
+    }
+
 }

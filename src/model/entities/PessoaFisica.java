@@ -25,11 +25,11 @@ public class PessoaFisica extends Cliente {
     @Override
     public String paraArquivo() {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return "PF;" + getNome() + ";" + getCpf() + ";" + getDataNascimento().format(fmt);
+        return "PF;" + getNome() + ";" + getEndereco() + ";" + getCpf() + ";" + getDataNascimento().format(fmt);
     }
 
     @Override
     public String toString() {
-        return "PF, " + super.toString() + "CPF: " + cpf + ", Data de nascimento: " + dataNascimento + ".";
+        return "PF, " + super.toString() + ", CPF: " + cpf + ", Data de nascimento: " + dataNascimento;
     }
 }

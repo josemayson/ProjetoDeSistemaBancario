@@ -22,7 +22,7 @@ public class ContaPoupanca extends Conta {
         } else if (titular instanceof PessoaJuridica) {
             documento = ((PessoaJuridica) titular).getCnpj();
         }
-        return "CP;" + numero + ";" + agencia + ";" + saldo + ";" + documento;
+        return "CP;" + getNumero() + ";" + agencia + ";" + saldo + ";" + documento;
     }
 
     public Double getTaxaRendimento() {

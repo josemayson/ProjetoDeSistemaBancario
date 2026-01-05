@@ -40,7 +40,7 @@ public class ContaCorrente extends Conta implements Tributavel {
         } else if (titular instanceof PessoaJuridica) {
             documento = ((PessoaJuridica) titular).getCnpj();
         }
-        return "CC;" + numero + ";" + agencia + ";" + saldo + ";" + documento + ";" + limiteChequeEspecial;
+        return "CC;" + getNumero() + ";" + agencia + ";" + saldo + ";" + documento + ";" + limiteChequeEspecial;
     }
 
     @Override

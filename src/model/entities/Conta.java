@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class Conta {
 
-    protected Integer numero;
+    private Integer numero;
     protected Integer agencia;
     protected double saldo;
     protected Cliente titular;
@@ -16,6 +16,10 @@ public abstract class Conta {
         this.agencia = agencia;
         this.saldo = 0.0;
         this.titular = titular;
+    }
+
+    public Integer getNumero() {
+        return numero;
     }
 
     public boolean depositar(double valorDeposito) {

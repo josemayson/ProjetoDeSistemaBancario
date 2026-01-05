@@ -8,7 +8,7 @@ public class Banco {
     private String nomeDoBanco;
     private String codigo;
     private Integer agenciaPadrao = 101;
-    private Integer ordem = 1;
+
     private List<Cliente> clientesDoBanco = new ArrayList<>();
     private List<Conta> contas = new ArrayList<>();
 
@@ -29,19 +29,33 @@ public class Banco {
         if (cliente == null) {
             return false;
         }
+
+        int maiorNumero = 0;
+        for (Conta c : contas) {
+            if (c.getNumero() > maiorNumero) {
+                maiorNumero = c.getNumero();
+            }
+        }
+
+        int novoNumeroConta = maiorNumero + 1;
         Conta novaConta = null;
+
         if (tipo.equalsIgnoreCase("corrente")) {
-            double chequeEspecial = 1000;
-            novaConta = new ContaCorrente(this.ordem, this.agenciaPadrao, cliente, chequeEspecial);
+            double chequeEspecial = 500.0;
+            novaConta = new ContaCorrente(novoNumeroConta, this.agenciaPadrao, cliente, chequeEspecial);
+
         } else if (tipo.equalsIgnoreCase("poupanca")) {
-            novaConta = new ContaPoupanca(this.ordem, this.agenciaPadrao, cliente);
+            novaConta = new ContaPoupanca(novoNumeroConta, this.agenciaPadrao, cliente);
         } else {
             return false;
         }
         cliente.adicionarConta(novaConta);
         this.contas.add(novaConta);
-        this.ordem++;
         return true;
+    }
+
+    public void setContas(List<Conta> contasCarregadas) {
+        this.contas = contasCarregadas;
     }
 
     public String getNomeDoBanco() {
@@ -51,5 +65,8 @@ public class Banco {
     public String getCodigo() {
         return codigo;
     }
-}
 
+    public List<Conta> getContas() {
+        return contas;
+    }
+}
