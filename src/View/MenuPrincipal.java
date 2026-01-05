@@ -14,7 +14,7 @@ public class MenuPrincipal extends JFrame {
     private BancoDeDados bancoDeDados;
 
     public MenuPrincipal() {
-        banco = new Banco("Banco Tech", "001");
+        banco = new Banco("Quixa Bank", "001");
         bancoDeDados = new BancoDeDados();
         carregarDados();
 
