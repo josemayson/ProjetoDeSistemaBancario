@@ -143,7 +143,6 @@ public class TelaCadastro extends JFrame {
 
                 String tipo = (String) cmbTipoConta.getSelectedItem();
 
-                // --- CHAMA O MÉTODO SEM LIMITE (O BANCO PÕE FIXO) ---
                 boolean sucesso = banco.abrirConta(titular, tipo);
 
                 if (sucesso) {

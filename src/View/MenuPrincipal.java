@@ -14,7 +14,7 @@ public class MenuPrincipal extends JFrame {
     private BancoDeDados bancoDeDados;
 
     public MenuPrincipal() {
-        banco = new Banco("Quixa Bank", "001");
+        banco = new Banco("Quixas Bank", "001");
         bancoDeDados = new BancoDeDados();
         carregarDados();
 
@@ -25,11 +25,17 @@ public class MenuPrincipal extends JFrame {
         setLayout(new GridLayout(4, 1, 10, 10));
 
         JLabel lblTitulo = new JLabel("Bem-vindo ao " + banco.getNomeDoBanco(), SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 26));
+
+        Font fonteBotoes = new Font("Arial", Font.PLAIN, 22);
 
         JButton btnCadastro = new JButton("Cadastros (Clientes e Contas)");
         JButton btnOperacoes = new JButton("Operações Bancárias");
         JButton btnSair = new JButton("Sair");
+
+        btnCadastro.setFont(fonteBotoes);
+        btnOperacoes.setFont(fonteBotoes);
+        btnSair.setFont(fonteBotoes);
 
         btnCadastro.addActionListener(e -> {
             new TelaCadastro(banco, bancoDeDados).setVisible(true);
@@ -40,12 +46,15 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnSair.addActionListener(e -> System.exit(0));
+
         JButton btnCaixa = new JButton("Ir para o Caixa (Depósito/Saque)");
+        btnCaixa.setFont(fonteBotoes);
 
         add(lblTitulo);
         add(btnCadastro);
         add(btnOperacoes);
         add(btnSair);
+
     }
 
     private void carregarDados() {
