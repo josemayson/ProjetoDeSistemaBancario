@@ -5,6 +5,8 @@ import repositories.BancoDeDados;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,25 +38,33 @@ public class MenuPrincipal extends JFrame {
         btnCadastro.setFont(fonteBotoes);
         btnOperacoes.setFont(fonteBotoes);
         btnSair.setFont(fonteBotoes);
-
-        btnCadastro.addActionListener(e -> {
-            new TelaCadastro(banco, bancoDeDados).setVisible(true);
+        btnCadastro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new TelaCadastro(banco, bancoDeDados, MenuPrincipal.this).setVisible(true);
+            }
         });
 
-        btnOperacoes.addActionListener(e -> {
-            new TelaOperacoes(banco, bancoDeDados).setVisible(true);
+        btnOperacoes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new TelaOperacoes(banco, bancoDeDados, MenuPrincipal.this).setVisible(true);
+            }
         });
 
-        btnSair.addActionListener(e -> System.exit(0));
-
-        JButton btnCaixa = new JButton("Ir para o Caixa (Depósito/Saque)");
-        btnCaixa.setFont(fonteBotoes);
+        btnSair.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
         add(lblTitulo);
         add(btnCadastro);
         add(btnOperacoes);
         add(btnSair);
-
     }
 
     private void carregarDados() {
@@ -63,14 +73,9 @@ public class MenuPrincipal extends JFrame {
             for (Cliente c : clientesCarregados) {
                 banco.adicionarCliente(c);
             }
-
             ArrayList<Conta> contasCarregadas = bancoDeDados.lerContas(clientesCarregados);
         } catch (IOException e) {
             System.out.println("Nenhum dado anterior encontrado ou erro ao ler: " + e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MenuPrincipal().setVisible(true));
     }
 }

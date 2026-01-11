@@ -5,6 +5,8 @@ import repositories.BancoDeDados;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ public class TelaOperacoes extends JFrame {
 
     private Banco banco;
     private BancoDeDados bancoDeDados;
+    private MenuPrincipal menuPrincipal;
 
     private ArrayList<Conta> listaDeContas;
     private Conta contaSelecionada;
@@ -21,9 +24,10 @@ public class TelaOperacoes extends JFrame {
     private JTextArea txtExtrato;
     private JTextField txtNumConta;
 
-    public TelaOperacoes(Banco banco, BancoDeDados bancoDeDados) {
+    public TelaOperacoes(Banco banco, BancoDeDados bancoDeDados, MenuPrincipal menuPrincipal) {
         this.banco = banco;
         this.bancoDeDados = bancoDeDados;
+        this.menuPrincipal = menuPrincipal;
 
         try {
             ArrayList<Cliente> clientes = bancoDeDados.lerClientes();
@@ -36,7 +40,16 @@ public class TelaOperacoes extends JFrame {
         setTitle("Operações Bancárias");
         setSize(700, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                dispose();
+                menuPrincipal.setVisible(true);
+            }
+        });
+
         setLayout(new BorderLayout());
 
         JPanel panelTopo = new JPanel(new FlowLayout());
@@ -71,108 +84,133 @@ public class TelaOperacoes extends JFrame {
         JButton btnSacar = new JButton("Sacar");
         JButton btnTransferir = new JButton("Transferir");
         JButton btnLimpar = new JButton("Limpar");
+        JButton btnVoltar = new JButton("Voltar");
 
         panelBotoes.add(btnDepositar);
         panelBotoes.add(btnSacar);
         panelBotoes.add(btnTransferir);
         panelBotoes.add(btnLimpar);
+        panelBotoes.add(btnVoltar);
 
-        btnBuscar.addActionListener(e -> {
-            try {
-                int num = Integer.parseInt(txtNumConta.getText());
-                contaSelecionada = buscarContaNaMemoria(num);
-                atualizarTela();
+        btnBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int num = Integer.parseInt(txtNumConta.getText());
+                    contaSelecionada = buscarContaNaMemoria(num);
+                    atualizarTela();
 
+                    if (contaSelecionada == null) {
+                        JOptionPane.showMessageDialog(TelaOperacoes.this, "Conta não encontrada.");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Digite um número válido.");
+                }
+            }
+        });
+
+        btnDepositar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if (contaSelecionada == null) {
-                    JOptionPane.showMessageDialog(this, "Conta não encontrada.");
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Selecione uma conta primeiro.");
+                    return;
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Digite um número válido.");
+                String valorStr = JOptionPane.showInputDialog("Valor para Depósito:");
+                if (valorStr != null) {
+                    try {
+                        double val = Double.parseDouble(valorStr);
+                        if (contaSelecionada.depositar(val)) {
+                            salvarAlteracoes();
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Depósito realizado!");
+                            atualizarTela();
+                        } else {
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Valor inválido.");
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(TelaOperacoes.this, "Valor inválido.");
+                    }
+                }
             }
         });
 
-        btnDepositar.addActionListener(e -> {
-            if (contaSelecionada == null) {
-                JOptionPane.showMessageDialog(this, "Selecione uma conta primeiro.");
-                return;
+        btnSacar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (contaSelecionada == null) {
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Selecione uma conta primeiro.");
+                    return;
+                }
+                String valorStr = JOptionPane.showInputDialog("Valor para Saque:");
+                if (valorStr != null) {
+                    try {
+                        double val = Double.parseDouble(valorStr);
+                        if (contaSelecionada.sacar(val)) {
+                            salvarAlteracoes();
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Saque realizado!");
+                            atualizarTela();
+                        } else {
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Saldo insuficiente ou valor inválido.");
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(TelaOperacoes.this, "Valor inválido.");
+                    }
+                }
             }
-            String valorStr = JOptionPane.showInputDialog("Valor para Depósito:");
-            if (valorStr != null) {
+        });
+
+        btnTransferir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (contaSelecionada == null) {
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Selecione uma conta primeiro.");
+                    return;
+                }
+
+                String contaDestStr = JOptionPane.showInputDialog("Número da Conta Destino:");
+                if (contaDestStr == null) return;
+
+                String valorStr = JOptionPane.showInputDialog("Valor da Transferência:");
+                if (valorStr == null) return;
+
                 try {
+                    int numDest = Integer.parseInt(contaDestStr);
                     double val = Double.parseDouble(valorStr);
-                    if (contaSelecionada.depositar(val)) {
-                        salvarAlteracoes(); // Salva no arquivo
-                        JOptionPane.showMessageDialog(this, "Depósito realizado!");
-                        atualizarTela();
+
+                    Conta contaDestino = buscarContaNaMemoria(numDest);
+
+                    if (contaDestino != null) {
+                        if (contaSelecionada.transferir(contaDestino, val)) {
+                            salvarAlteracoes();
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Transferência realizada!");
+                            atualizarTela();
+                        } else {
+                            JOptionPane.showMessageDialog(TelaOperacoes.this, "Saldo insuficiente.");
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(this, "Valor inválido.");
+                        JOptionPane.showMessageDialog(TelaOperacoes.this, "Conta destino não encontrada.");
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Valor inválido.");
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Dados inválidos.");
                 }
             }
         });
 
-        btnSacar.addActionListener(e -> {
-            if (contaSelecionada == null) {
-                JOptionPane.showMessageDialog(this, "Selecione uma conta primeiro.");
-                return;
-            }
-            String valorStr = JOptionPane.showInputDialog("Valor para Saque:");
-            if (valorStr != null) {
-                try {
-                    double val = Double.parseDouble(valorStr);
-                    if (contaSelecionada.sacar(val)) {
-                        salvarAlteracoes(); // Salva no arquivo
-                        JOptionPane.showMessageDialog(this, "Saque realizado!");
-                        atualizarTela();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Saldo insuficiente ou valor inválido.");
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Valor inválido.");
-                }
+        btnLimpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contaSelecionada = null;
+                txtNumConta.setText("");
+                atualizarTela();
             }
         });
 
-        btnTransferir.addActionListener(e -> {
-            if (contaSelecionada == null) {
-                JOptionPane.showMessageDialog(this, "Selecione uma conta primeiro.");
-                return;
+        btnVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                menuPrincipal.setVisible(true);
             }
-
-            String contaDestStr = JOptionPane.showInputDialog("Número da Conta Destino:");
-            if (contaDestStr == null) return;
-
-            String valorStr = JOptionPane.showInputDialog("Valor da Transferência:");
-            if (valorStr == null) return;
-
-            try {
-                int numDest = Integer.parseInt(contaDestStr);
-                double val = Double.parseDouble(valorStr);
-
-                Conta contaDestino = buscarContaNaMemoria(numDest);
-
-                if (contaDestino != null) {
-                    if (contaSelecionada.transferir(contaDestino, val)) {
-                        salvarAlteracoes(); // Salva as duas contas no arquivo
-                        JOptionPane.showMessageDialog(this, "Transferência realizada!");
-                        atualizarTela();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Saldo insuficiente.");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Conta destino não encontrada.");
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Dados inválidos.");
-            }
-        });
-
-        btnLimpar.addActionListener(e -> {
-            contaSelecionada = null;
-            txtNumConta.setText("");
-            atualizarTela();
         });
 
         add(panelTopo, BorderLayout.NORTH);
