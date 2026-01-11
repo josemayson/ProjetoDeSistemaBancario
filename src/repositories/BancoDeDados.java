@@ -115,9 +115,7 @@ public class BancoDeDados {
         return null;
     }
 
-    // Em BancoDeDados.java
     public void atualizarArquivoContas(ArrayList<Conta> listaDeContas) throws IOException {
-        // FileWriter sem o "true" sobrescreve o arquivo
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQContas))) {
             for (Conta conta : listaDeContas) {
                 bw.write(conta.paraArquivo());

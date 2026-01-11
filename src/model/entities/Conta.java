@@ -18,6 +18,13 @@ public abstract class Conta {
         this.titular = titular;
     }
 
+    public Conta() {
+        this.numero = null;
+        this.agencia = null;
+        this.saldo = 0;
+        this.titular = null;
+    }
+
     public Integer getNumero() {
         return numero;
     }

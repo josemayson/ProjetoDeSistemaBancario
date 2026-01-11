@@ -8,6 +8,7 @@ public class PessoaJuridica extends Cliente {
     private String cnpj;
     private LocalDate dataFundacao;
     private String razaoSocial;
+    public static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public PessoaJuridica(String nome, String endereco, String cnpj, LocalDate dataFundacao, String razaoSocial) {
         super(nome, endereco);
@@ -30,7 +31,6 @@ public class PessoaJuridica extends Cliente {
 
     @Override
     public String paraArquivo() {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return "PJ;" + getNome() + ";" + getEndereco() + ";" + getCnpj() + ";" + getDataFundacao().format(fmt) + ";" + getRazaoSocial();
     }
 

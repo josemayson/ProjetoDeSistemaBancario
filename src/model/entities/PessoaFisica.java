@@ -7,6 +7,7 @@ public class PessoaFisica extends Cliente {
 
     private String cpf;
     private LocalDate dataNascimento;
+    public static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public PessoaFisica(String nome, String endereco, String cpf, LocalDate dataNascimento) {
         super(nome, endereco);
@@ -24,7 +25,6 @@ public class PessoaFisica extends Cliente {
 
     @Override
     public String paraArquivo() {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return "PF;" + getNome() + ";" + getEndereco() + ";" + getCpf() + ";" + getDataNascimento().format(fmt);
     }
 

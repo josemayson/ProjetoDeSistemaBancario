@@ -14,6 +14,11 @@ public abstract class Cliente {
         this.endereco = endereco;
     }
 
+    public Cliente() {
+        this.nome = "";
+        this.endereco = "";
+    }
+
     public boolean atualizarDados(String nome, String endereco) {
         if (nome != null && endereco != null) {
             this.nome = nome;
