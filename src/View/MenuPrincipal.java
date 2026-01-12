@@ -21,24 +21,27 @@ public class MenuPrincipal extends JFrame {
         carregarDados();
 
         setTitle("Sistema Bancário - Menu Principal");
-        setSize(400, 400);
+        setSize(400, 500); // Aumentei um pouco a altura para caber o novo botão sem apertar
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        setLayout(new GridLayout(5, 1, 10, 10));
+        setLayout(new GridLayout(6, 1, 10, 10));
 
         JLabel lblTitulo = new JLabel("Bem-vindo ao " + banco.getNomeDoBanco(), SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 26));
 
         Font fonteBotoes = new Font("Arial", Font.PLAIN, 20);
 
-        JButton btnCadastro = new JButton("Cadastros");
+        JButton btnCadastro = new JButton("Cadastros de Clientes/Contas");
         JButton btnOperacoes = new JButton("Operações (Depósito/Saque)");
+        JButton btnListarClientes = new JButton("Listar Clientes");
+
         JButton btnListar = new JButton("Listar Todas as Contas");
         JButton btnSair = new JButton("Sair");
 
         btnCadastro.setFont(fonteBotoes);
         btnOperacoes.setFont(fonteBotoes);
+        btnListarClientes.setFont(fonteBotoes); // Aplicando a fonte
         btnListar.setFont(fonteBotoes);
         btnSair.setFont(fonteBotoes);
 
@@ -55,6 +58,14 @@ public class MenuPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 new TelaOperacoes(banco, bancoDeDados, MenuPrincipal.this).setVisible(true);
+            }
+        });
+
+        btnListarClientes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new TelaListagemClientes(bancoDeDados, MenuPrincipal.this).setVisible(true);
             }
         });
 
@@ -76,6 +87,8 @@ public class MenuPrincipal extends JFrame {
         add(lblTitulo);
         add(btnCadastro);
         add(btnOperacoes);
+        add(btnListarClientes);
+
         add(btnListar);
         add(btnSair);
     }
@@ -86,7 +99,7 @@ public class MenuPrincipal extends JFrame {
             for (Cliente c : clientesCarregados) {
                 banco.adicionarCliente(c);
             }
-            ArrayList<Conta> contasCarregadas = bancoDeDados.lerContas(clientesCarregados);
+            bancoDeDados.lerContas(clientesCarregados);
         } catch (IOException e) {
             System.out.println("Nenhum dado anterior encontrado: " + e.getMessage());
         }
