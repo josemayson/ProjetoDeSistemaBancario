@@ -11,14 +11,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TelaListagem extends JFrame {
+public class TelaListagemContas extends JFrame {
 
     private BancoDeDados bancoDeDados;
     private MenuPrincipal menuPrincipal;
     private JTable tabela;
     private DefaultTableModel modeloTabela;
 
-    public TelaListagem(BancoDeDados bancoDeDados, MenuPrincipal menuPrincipal) {
+    public TelaListagemContas(BancoDeDados bancoDeDados, MenuPrincipal menuPrincipal) {
         this.bancoDeDados = bancoDeDados;
         this.menuPrincipal = menuPrincipal;
 

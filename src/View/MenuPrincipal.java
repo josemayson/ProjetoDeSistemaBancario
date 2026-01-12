@@ -62,7 +62,7 @@ public class MenuPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new TelaListagem(bancoDeDados, MenuPrincipal.this).setVisible(true);
+                new TelaListagemContas(bancoDeDados, MenuPrincipal.this).setVisible(true);
             }
         });
 
