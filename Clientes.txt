@@ -1,1 +1,6 @@
 
+PF;jose;quixada;1000;20/09/2003
+
+PF;matheus;boa viagem;20;20/09/2000
+PJ;francisco;quixada;2000;10/09/1980;imports
+PF;jose;quixada;29;20/09/2001

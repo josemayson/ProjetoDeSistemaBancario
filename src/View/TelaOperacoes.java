@@ -38,7 +38,7 @@ public class TelaOperacoes extends JFrame {
         }
 
         setTitle("Operações Bancárias");
-        setSize(700, 500);
+        setSize(750, 550);
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -84,11 +84,16 @@ public class TelaOperacoes extends JFrame {
         JButton btnSacar = new JButton("Sacar");
         JButton btnTransferir = new JButton("Transferir");
         JButton btnLimpar = new JButton("Limpar");
+        JButton btnExcluir = new JButton("Excluir Conta");
         JButton btnVoltar = new JButton("Voltar");
+
+        btnExcluir.setBackground(new Color(255, 100, 100));
+        btnExcluir.setForeground(Color.WHITE);
 
         panelBotoes.add(btnDepositar);
         panelBotoes.add(btnSacar);
         panelBotoes.add(btnTransferir);
+        panelBotoes.add(btnExcluir);
         panelBotoes.add(btnLimpar);
         panelBotoes.add(btnVoltar);
 
@@ -105,6 +110,33 @@ public class TelaOperacoes extends JFrame {
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(TelaOperacoes.this, "Digite um número válido.");
+                }
+            }
+        });
+
+        btnExcluir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (contaSelecionada == null) {
+                    JOptionPane.showMessageDialog(TelaOperacoes.this, "Busque e selecione uma conta para excluir.");
+                    return;
+                }
+                int confirmacao = JOptionPane.showConfirmDialog(
+                        TelaOperacoes.this,
+                        "Tem certeza que deseja EXCLUIR a conta nº" + contaSelecionada.getNumero() + "?\nEssa ação não pode ser desfeita.",
+                        "Excluir Conta",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    listaDeContas.remove(contaSelecionada);
+                    banco.removerConta(contaSelecionada);
+                    salvarAlteracoes();
+                    Utilitarios.msgSucesso("Conta excluída com sucesso.");
+                    contaSelecionada = null;
+                    txtNumConta.setText("");
+                    atualizarTela();
                 }
             }
         });

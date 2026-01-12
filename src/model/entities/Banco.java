@@ -17,6 +17,12 @@ public class Banco {
         this.codigo = codigo;
     }
 
+    public Banco() {
+        this.nomeDoBanco = "";
+        this.codigo = "";
+        this.agenciaPadrao = null;
+    }
+
     public boolean adicionarCliente(Cliente cliente) {
         if (cliente != null) {
             clientesDoBanco.add(cliente);
@@ -29,17 +35,14 @@ public class Banco {
         if (cliente == null) {
             return false;
         }
-
         int maiorNumero = 0;
         for (Conta c : contas) {
             if (c.getNumero() > maiorNumero) {
                 maiorNumero = c.getNumero();
             }
         }
-
         int novoNumeroConta = maiorNumero + 1;
         Conta novaConta = null;
-
         if (tipo.equalsIgnoreCase("corrente")) {
             double chequeEspecial = 500.0;
             novaConta = new ContaCorrente(novoNumeroConta, this.agenciaPadrao, cliente, chequeEspecial);
@@ -51,6 +54,15 @@ public class Banco {
         }
         cliente.adicionarConta(novaConta);
         this.contas.add(novaConta);
+        return true;
+    }
+
+    public boolean removerConta(Conta conta) {
+        if (conta == null) return false;
+        this.contas.remove(conta);
+        if (conta.titular != null) {
+            conta.titular.consultarContas().remove(conta);
+        }
         return true;
     }
 
