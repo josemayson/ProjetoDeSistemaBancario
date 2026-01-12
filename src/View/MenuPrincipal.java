@@ -21,7 +21,7 @@ public class MenuPrincipal extends JFrame {
         carregarDados();
 
         setTitle("Sistema Bancário - Menu Principal");
-        setSize(400, 400); // Aumentei um pouco a altura
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -34,7 +34,7 @@ public class MenuPrincipal extends JFrame {
 
         JButton btnCadastro = new JButton("Cadastros");
         JButton btnOperacoes = new JButton("Operações (Depósito/Saque)");
-        JButton btnListar = new JButton("Listar Todas as Contas"); // NOVO BOTÃO
+        JButton btnListar = new JButton("Listar Todas as Contas");
         JButton btnSair = new JButton("Sair");
 
         btnCadastro.setFont(fonteBotoes);
@@ -62,7 +62,6 @@ public class MenuPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                // Passa o bancoDeDados para ler o arquivo e o Menu para voltar
                 new TelaListagem(bancoDeDados, MenuPrincipal.this).setVisible(true);
             }
         });
@@ -77,7 +76,7 @@ public class MenuPrincipal extends JFrame {
         add(lblTitulo);
         add(btnCadastro);
         add(btnOperacoes);
-        add(btnListar); // Adiciona na tela
+        add(btnListar);
         add(btnSair);
     }
 

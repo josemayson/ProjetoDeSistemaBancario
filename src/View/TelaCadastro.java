@@ -74,7 +74,7 @@ public class TelaCadastro extends JFrame {
                     txtRazaoSocial.setEnabled(false);
                     txtRazaoSocial.setText("N/A");
                     txtRazaoSocial.setBackground(Color.LIGHT_GRAY);
-                } else { // PJ
+                } else {
                     lblDoc.setText("CNPJ:");
                     lblData.setText("Data Fund. (dd/MM/yyyy):");
                     txtRazaoSocial.setEnabled(true);
